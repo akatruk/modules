@@ -6,7 +6,7 @@ resource "aws_rds_cluster" "template-aurora" {
   ]
   backtrack_window                    = 0
   backup_retention_period             = 7
-  cluster_identifier                  = "${var.cluster_name}"
+  cluster_identifier                  = var.cluster_name
   copy_tags_to_snapshot               = true
   db_cluster_parameter_group_name     = "default.aurora-postgresql${var.rds_version}"
   db_subnet_group_name                = "production-subnet-group"
@@ -18,14 +18,14 @@ resource "aws_rds_cluster" "template-aurora" {
   engine_version                      = "${var.rds_version}.6"
   iam_database_authentication_enabled = false
   iam_roles                           = []
-  master_username                     = "${var.default_username}"
+  master_username                     = var.default_username
   master_password                     = random_password.template-master-password.result
   port                                = 5432
   preferred_backup_window             = "23:40-00:10"
   preferred_maintenance_window        = "sun:00:55-sun:01:25"
   skip_final_snapshot                 = true
   storage_encrypted                   = true
-  tags = "${var.common_tags}"
+  tags                                = var.not_default_tags
   vpc_security_group_ids = [
     aws_security_group.template-aurora-sg.id,
   ]
@@ -37,7 +37,6 @@ resource "aws_rds_cluster" "template-aurora" {
       preferred_maintenance_window,
     ]
   }
-
 }
 
 resource "aws_security_group" "template-aurora-sg" {
@@ -46,7 +45,7 @@ resource "aws_security_group" "template-aurora-sg" {
   ingress = [
     {
       cidr_blocks = [
-        "10.19.0.0/16",
+        "${var.allow_cidr_one}",
       ]
       description      = ""
       from_port        = 5432
@@ -59,7 +58,7 @@ resource "aws_security_group" "template-aurora-sg" {
     },
     {
       cidr_blocks = [
-        "172.16.0.0/16",
+        "${var.allow_cidr_two}",
       ]
       description      = ""
       from_port        = 5432
@@ -73,8 +72,8 @@ resource "aws_security_group" "template-aurora-sg" {
   ]
   tags = {
     "app-owner" = "${var.var-app-owner}"
-    "owner" = "${var.var-owner}"
-    "project" = "${var.var-project}"
+    "owner"     = "${var.var-owner}"
+    "project"   = "${var.var-project}"
   }
   vpc_id = "vpc-09057d75129f950e1"
 }
@@ -96,11 +95,7 @@ resource "aws_rds_cluster_instance" "template-aurora-instance-1" {
   performance_insights_retention_period = 7
   promotion_tier                        = 1
   publicly_accessible                   = false
-  tags = {
-    "app-owner" = "${var.var-app-owner}"
-    "owner" = "${var.var-owner}"
-    "project" = "${var.var-project}"
-  }
+  tags                                  = var.not_default_tags
   lifecycle {
     ignore_changes = [
       engine_version,
@@ -117,8 +112,8 @@ resource "aws_secretsmanager_secret" "template-aurora" {
   name = "${aws_rds_cluster.template-aurora.cluster_identifier}-rds"
   tags = {
     "app-owner" = "${var.var-app-owner}"
-    "owner" = "${var.var-owner}"
-    "project" = "${var.var-project}"
+    "owner"     = "${var.var-owner}"
+    "project"   = "${var.var-project}"
   }
 }
 

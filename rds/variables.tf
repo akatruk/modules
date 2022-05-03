@@ -18,14 +18,19 @@ variable "replicas_count" {
   default = "1"
 }
 
-variable "var-project" {
-  default = "test-project"
-}
-
-variable "var-owner" {
-  default = "DevOps team"
-}
-
-variable "var-app-owner" {
-  default = "Andrei Katruk"
+variable "not_default_tags" {
+  type = list(object({
+    project   = number
+    owner     = number
+    app_owner = string
+    app-tasks = "undefined"
+  }))
+  default = [
+    {
+      project   = "test-project"
+      owner     = "DevOps team"
+      app_owner = "Andrei Katruk"
+      app-tasks = "undefined"
+    }
+  ]
 }
