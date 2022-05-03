@@ -18,8 +18,14 @@ variable "replicas_count" {
   default = "1"
 }
 
-variable "common_tags" {
-  project   = "test-project"
-  owner     = "DevOps team"
-  app-owner = "Andrei Katruk"
+variable "var-project" {
+  default = "test-project"
+}
+
+variable "var-owner" {
+  default = "DevOps team"
+}
+
+variable "var-app-owner" {
+  default = "Andrei Katruk"
 }

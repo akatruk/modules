@@ -71,7 +71,11 @@ resource "aws_security_group" "template-aurora-sg" {
       to_port          = 5432
     },
   ]
-  tags = "${var.common_tags}"
+  tags = {
+    "app-owner" = "${var.var-app-owner}"
+    "owner" = "${var.var-owner}"
+    "project" = "${var.var-project}"
+  }
   vpc_id = data.terraform_remote_state.vpc.outputs.kube_vpc_id
 }
 
@@ -92,7 +96,11 @@ resource "aws_rds_cluster_instance" "template-aurora-instance-1" {
   performance_insights_retention_period = 7
   promotion_tier                        = 1
   publicly_accessible                   = false
-  tags = "${var.common_tags}"
+  tags = {
+    "app-owner" = "${var.var-app-owner}"
+    "owner" = "${var.var-owner}"
+    "project" = "${var.var-project}"
+  }
   lifecycle {
     ignore_changes = [
       engine_version,
@@ -107,7 +115,11 @@ resource "random_password" "template-master-password" {
 
 resource "aws_secretsmanager_secret" "template-aurora" {
   name = "${aws_rds_cluster.template-aurora.cluster_identifier}-rds"
-  tags = "${var.common_tags}"
+  tags = {
+    "app-owner" = "${var.var-app-owner}"
+    "owner" = "${var.var-owner}"
+    "project" = "${var.var-project}"
+  }
 }
 
 resource "aws_secretsmanager_secret_version" "template-aurora" {
