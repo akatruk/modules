@@ -33,13 +33,5 @@ variable "not_default_tags" {
     app_owner = string
     app-tasks = string
   }))
-  default = [
-    {
-      project   = "test-project"
-      owner     = "DevOps team"
-      app_owner = "Andrei Katruk"
-      app-tasks = "undefined"
-    }
-  ]
 }
 
