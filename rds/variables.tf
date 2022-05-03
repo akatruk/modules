@@ -20,10 +20,10 @@ variable "replicas_count" {
 
 variable "not_default_tags" {
   type = list(object({
-    project   = number
-    owner     = number
+    project   = string
+    owner     = string
     app_owner = string
-    app-tasks = "undefined"
+    app-tasks = string
   }))
   default = [
     {
