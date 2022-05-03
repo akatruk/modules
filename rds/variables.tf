@@ -18,6 +18,14 @@ variable "replicas_count" {
   default = "1"
 }
 
+variable "allow_cidr_one" {
+  default = "10.19.0.0/16"
+}
+
+variable "allow_cidr_one" {
+  default = "172.16.0.0/16"
+}
+
 variable "not_default_tags" {
   type = list(object({
     project   = string
@@ -34,3 +42,4 @@ variable "not_default_tags" {
     }
   ]
 }
+
