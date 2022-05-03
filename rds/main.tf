@@ -27,7 +27,7 @@ resource "aws_rds_cluster" "template-aurora" {
   storage_encrypted                   = true
   tags = "${var.common_tags}"
   vpc_security_group_ids = [
-    data.aws_security_group.template-aurora-sg.id,
+    aws_security_group.template-aurora-sg.id,
   ]
   lifecycle {
     ignore_changes = [
