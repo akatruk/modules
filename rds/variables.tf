@@ -27,12 +27,12 @@ variable "allow_cidr_two" {
 }
 
 variable "not_default_tags" {
-  type = object({
+  type = list(object({
     project   = string
     owner     = string
     app_owner = string
     app-tasks = string
-  })
+  }))
   default = [
     {
       project   = "test-project"
