@@ -1,10 +1,10 @@
 RDS: 
 
-RDS example 
+RDS example
 
 ```
 module "rds" {
-  source           = "modules/rds1/"
+  source           = "https://github.com/akatruk/modules.git//rds"
   cluster_name     = "test_rds"
   default_username = "postgres"
   rds_version      = "13"
