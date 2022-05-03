@@ -1,8 +1,3 @@
-locals = {
-  common_tag = "${var.common_tags}"
-}
-
-
 resource "aws_rds_cluster" "template-aurora" {
   availability_zones = [
     "eu-west-2a",
@@ -31,7 +26,7 @@ resource "aws_rds_cluster" "template-aurora" {
   skip_final_snapshot                 = true
   storage_encrypted                   = true
   tags = (merge(
-    local.common_tag)
+    "${var.common_tags}")
   )
   vpc_security_group_ids = [
     data.aws_security_group.kube_node.id,
@@ -79,7 +74,7 @@ resource "aws_security_group" "template-aurora-sg" {
     },
   ]
   tags = (merge(
-    local.common_tag)
+    "${var.common_tags}")
   )
   vpc_id = data.terraform_remote_state.vpc.outputs.kube_vpc_id
 }
@@ -102,7 +97,7 @@ resource "aws_rds_cluster_instance" "template-aurora-instance-1" {
   promotion_tier                        = 1
   publicly_accessible                   = false
   tags = (merge(
-    local.common_tag)
+    "${var.common_tags}")
   )
   lifecycle {
     ignore_changes = [
@@ -119,7 +114,7 @@ resource "random_password" "template-master-password" {
 resource "aws_secretsmanager_secret" "template-aurora" {
   name = "${aws_rds_cluster.template-aurora.cluster_identifier}-rds"
   tags = (merge(
-    local.common_tag)
+    "${var.common_tags}")
   )
 }
 
