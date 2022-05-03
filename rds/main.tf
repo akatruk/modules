@@ -25,9 +25,7 @@ resource "aws_rds_cluster" "template-aurora" {
   preferred_maintenance_window        = "sun:00:55-sun:01:25"
   skip_final_snapshot                 = true
   storage_encrypted                   = true
-  tags = (merge(
-    "${var.common_tags}")
-  )
+  tags = "${var.common_tags}"
   vpc_security_group_ids = [
     data.aws_security_group.kube_node.id,
   ]
@@ -73,9 +71,7 @@ resource "aws_security_group" "template-aurora-sg" {
       to_port          = 5432
     },
   ]
-  tags = (merge(
-    "${var.common_tags}")
-  )
+  tags = "${var.common_tags}"
   vpc_id = data.terraform_remote_state.vpc.outputs.kube_vpc_id
 }
 
@@ -96,9 +92,7 @@ resource "aws_rds_cluster_instance" "template-aurora-instance-1" {
   performance_insights_retention_period = 7
   promotion_tier                        = 1
   publicly_accessible                   = false
-  tags = (merge(
-    "${var.common_tags}")
-  )
+  tags = "${var.common_tags}"
   lifecycle {
     ignore_changes = [
       engine_version,
@@ -113,9 +107,7 @@ resource "random_password" "template-master-password" {
 
 resource "aws_secretsmanager_secret" "template-aurora" {
   name = "${aws_rds_cluster.template-aurora.cluster_identifier}-rds"
-  tags = (merge(
-    "${var.common_tags}")
-  )
+  tags = "${var.common_tags}"
 }
 
 resource "aws_secretsmanager_secret_version" "template-aurora" {
