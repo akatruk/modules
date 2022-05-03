@@ -27,7 +27,7 @@ variable "allow_cidr_two" {
 }
 
 variable "not_default_tags" {
-  type = list(object({
+  type = map(object({
     project   = string
     owner     = string
     app_owner = string
