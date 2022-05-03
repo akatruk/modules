@@ -22,7 +22,7 @@ variable "allow_cidr_one" {
   default = "10.19.0.0/16"
 }
 
-variable "allow_cidr_one" {
+variable "allow_cidr_two" {
   default = "172.16.0.0/16"
 }
 
