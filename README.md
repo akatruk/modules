@@ -4,7 +4,7 @@ RDS example
 
 ```
 module "rds" {
-  source           = "https://github.com/akatruk/modules.git//rds"
+  source           = "git@github.com:akatruk/modules.git//rds"
   cluster_name     = "test_rds"
   default_username = "postgres"
   rds_version      = "13"
