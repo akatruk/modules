@@ -6,7 +6,7 @@ variable "default_username" {
   default = "postgres"
 }
 
-varible "rds_version" {
+variable "rds_version" {
   default = "13"
 }
 
