@@ -24,7 +24,7 @@ resource "aws_rds_cluster" "template-aurora" {
   iam_database_authentication_enabled = false
   iam_roles                           = []
   master_username                     = "${var.default_username}"
-  master_password                     = random_password.master_password.result
+  master_password                     = random_password.template-master-password.result
   port                                = 5432
   preferred_backup_window             = "23:40-00:10"
   preferred_maintenance_window        = "sun:00:55-sun:01:25"
@@ -34,7 +34,7 @@ resource "aws_rds_cluster" "template-aurora" {
     local.not_default_tags)
   )
   vpc_security_group_ids = [
-    data.aws_security_group.kube_node.id,
+    aws_security_group.template-aurora-sg.id,
   ]
   lifecycle {
     ignore_changes = [
@@ -81,7 +81,7 @@ resource "aws_security_group" "template-aurora-sg" {
   tags = (merge(
     local.not_default_tags)
   )
-  vpc_id = data.terraform_remote_state.vpc.outputs.kube_vpc_id
+  vpc_id = "vpc-09057d75129f950e1"
 }
 
 resource "aws_rds_cluster_instance" "template-aurora-instance-1" {
