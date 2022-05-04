@@ -1,5 +1,5 @@
 locals {
-  common_tag = "${var.common_tags}"
+  common_tags = "${var.tags}"
 }
 
 
@@ -31,7 +31,7 @@ resource "aws_rds_cluster" "template-aurora" {
   skip_final_snapshot                 = true
   storage_encrypted                   = true
   tags = (merge(
-    local.not_default_tags)
+    local.common_tags)
   )
   vpc_security_group_ids = [
     aws_security_group.template-aurora-sg.id,
@@ -79,7 +79,7 @@ resource "aws_security_group" "template-aurora-sg" {
     },
   ]
   tags = (merge(
-    local.not_default_tags)
+    local.common_tags)
   )
   vpc_id = "vpc-09057d75129f950e1"
 }
@@ -102,7 +102,7 @@ resource "aws_rds_cluster_instance" "template-aurora-instance-1" {
   promotion_tier                        = 1
   publicly_accessible                   = false
   tags = (merge(
-    local.not_default_tags)
+    local.common_tags)
   )
   lifecycle {
     ignore_changes = [
@@ -119,7 +119,7 @@ resource "random_password" "template-master-password" {
 resource "aws_secretsmanager_secret" "template-aurora" {
   name = "${aws_rds_cluster.template-aurora.cluster_identifier}-rds"
   tags = (merge(
-    local.not_default_tags)
+    local.common_tags)
   )
 }
 

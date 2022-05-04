@@ -18,7 +18,7 @@ variable "replicas_count" {
   default = "1"
 }
 
-variable "not_default_tags" {
+variable "tags" {
   type = list(object({
     project   = string
     owner     = string
