@@ -1,4 +1,4 @@
-locals = {
+locals {
   common_tag = "${var.common_tags}"
 }
 
